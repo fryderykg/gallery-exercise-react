@@ -1,15 +1,16 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import axios from 'axios';
 import './gallery.css';
 
 import Controls from '../../components/Controls/Controls';
 import Images from '../../components/Images/Images';
 
-class Gallery extends Component {
+class Gallery extends PureComponent {
   state = {
-    photos: [],
-    allPhotos: 0,
-    selectedPhotos: 0
+    allPhotos: [],
+    allPhotosCounter: 0,
+    selectedPhotosCounter: 0,
+    showSelectedOnly: false
   };
 
   componentDidMount() {
@@ -24,7 +25,7 @@ class Gallery extends Component {
 
         this.setState({
           ...this.state,
-          photos: updatedPhotos
+          allPhotos: updatedPhotos
         })
       })
       .catch(error => {
@@ -33,25 +34,51 @@ class Gallery extends Component {
   }
 
   selectAllPhotosHandler = () => {
-    console.log("all photos selected");
-    console.log(this.state.photos)
+    const updatedPhotos = this.state.allPhotos
+      .map(photo => {
+        return {
+          ...photo,
+          selected: true
+        }
+      });
+
+    this.setState({
+      ...this.state,
+      allPhotos: updatedPhotos
+    });
   };
 
   resetSelectedPhotosHandler = () => {
-    console.log("reset selected photos")
+    const updatedPhotos = this.state.allPhotos
+      .map(photo => {
+        return {
+          ...photo,
+          selected: false
+        }
+      });
+
+    this.setState({
+      ...this.state,
+      allPhotos: updatedPhotos
+    });
   };
 
   showSelectedPhotosHandler = () => {
-    console.log("show selected photos")
+    const updatedShowSelectedOnly = !this.state.showSelectedOnly;
+
+    this.setState({
+      ...this.state,
+      showSelectedOnly: updatedShowSelectedOnly
+    })
   };
 
   togglePhotoSelectionHandler = (id) => {
-    const updatedPhotos = this.state.photos
+    const updatedPhotos = this.state.allPhotos
       .map(photo => {
         if (photo.id === id) {
           return {
             ...photo,
-            selected: true
+            selected: !photo.selected
           }
         } else {
           return photo
@@ -60,22 +87,31 @@ class Gallery extends Component {
 
     this.setState({
       ...this.state,
-      photos: updatedPhotos
+      allPhotos: updatedPhotos,
     });
+  };
+
+  setSelectedPhotosHandler = (number) => {
+    this.setState({
+      ...this.state,
+      selectedPhotosCounter: number
+    })
   };
 
   render() {
     return (
       <div className="Gallery">
         <Controls
-          allPhotos={this.state.allPhotos}
-          selectedPhotos={this.state.selectedPhotos}
+          allPhotos={this.state.allPhotos.length}
+          selectedPhotos={this.state.selectedPhotosCounter}
           onSelectAllPhotos={this.selectAllPhotosHandler}
           onResetSelectedPhotos={this.resetSelectedPhotosHandler}
           onShowSelectedPhotos={this.showSelectedPhotosHandler}
         />
-        <Images images={this.state.photos}
-                onToggleSelection={this.togglePhotoSelectionHandler}/>
+        <Images images={this.state.allPhotos}
+                showSelectedOnly={this.state.showSelectedOnly}
+                onToggleSelection={this.togglePhotoSelectionHandler}
+                setSelectedPhotosCounter={this.setSelectedPhotosHandler}/>
       </div>
     );
   }
