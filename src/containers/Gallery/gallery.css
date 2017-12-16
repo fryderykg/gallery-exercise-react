@@ -1,5 +1,7 @@
 .Gallery {
   background-color: rgb(238, 238, 238);
   color: rgb(150, 150, 150);
+  margin: 0 auto;
+  max-width: 1600px;
   padding: 20px;
 }

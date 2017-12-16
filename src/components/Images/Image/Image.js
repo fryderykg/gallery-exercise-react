@@ -9,6 +9,22 @@ const Image = props => {
     classNames.push('selected')
   }
 
+  const dateConvert = () => {
+    const tempDate = new Date(props.date);
+    const year = tempDate.getFullYear();
+    const month = tempDate.getMonth() + 1;
+    let date = tempDate.getDate();
+    date = date < 10 ? '0' + date : date;
+    let hour = tempDate.getHours();
+    let min = tempDate.getMinutes();
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+    hour = hour % 12;
+    hour = hour ? hour : 12;
+    min = min < 10 ? '0' + min : min;
+    return date + '-' + month + '-' + year + ' ' + hour + ':' + min + ampm;
+  };
+
+
   return (
     <div className={classNames.join(' ')}>
       <div className="Image__photo">
@@ -18,8 +34,11 @@ const Image = props => {
              alt={props.imgAlt}/>
       </div>
       <div className="Image__description">
-        <div>{props.title}</div>
-        <div>{props.date}</div>
+        <div className="Image__title">{props.title}</div>
+        <div className="Image__date">
+          <span className="bold">Modified: </span>
+          {dateConvert()}
+        </div>
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 .Image {
-  border: 2px solid transparent;
+  /*border: 2px solid transparent;*/
   box-shadow: 0px 1px 6px rgb(150, 150, 150);
+  box-sizing: border-box;
   margin-bottom: 25px;
   margin-right: 2%;
   transition: border-color .3s ease;
@@ -12,6 +13,7 @@
 }
 
 .Image.selected {
+  border: 2px solid transparent;
   border-color: rgb(13, 138, 125);
 }
 
@@ -25,17 +27,17 @@
 }
 
 .Image__selector {
-  opacity: 0;
   background-color: rgb(255, 255, 255);
   border-radius: 50%;
   cursor: pointer;
   height: 25px;
   left: 12px;
+  opacity: 0;
   position: absolute;
   top: 12px;
-  width: 25px;
   transition: .3s ease;
   transition-property: background-color, opacity;
+  width: 25px;
 }
 
 .Image__photo img {
@@ -45,5 +47,23 @@
 }
 
 .Image__description {
+  display: flex;
+  flex-direction: column;
   height: 100px;
+  justify-content: space-between;
+  padding: 20px 15px;
+}
+
+.Image__title {
+  font-size: .8rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.Image__date {
+  font-size: .7rem;
+}
+
+.bold {
+  font-weight: 600;
 }
