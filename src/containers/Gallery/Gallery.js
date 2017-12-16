@@ -10,15 +10,21 @@ class Gallery extends Component {
     photos: [],
     allPhotos: 0,
     selectedPhotos: 0
-
   };
 
   componentDidMount() {
     axios.get('/assets/data.json')
       .then(response => {
+        const updatedPhotos = response.data.map(image => {
+          return {
+            ...image,
+            selected: false
+          }
+        });
+
         this.setState({
           ...this.state,
-          photos: response.data
+          photos: updatedPhotos
         })
       })
       .catch(error => {
@@ -39,6 +45,25 @@ class Gallery extends Component {
     console.log("show selected photos")
   };
 
+  togglePhotoSelectionHandler = (id) => {
+    const updatedPhotos = this.state.photos
+      .map(photo => {
+        if (photo.id === id) {
+          return {
+            ...photo,
+            selected: true
+          }
+        } else {
+          return photo
+        }
+      });
+
+    this.setState({
+      ...this.state,
+      photos: updatedPhotos
+    });
+  };
+
   render() {
     return (
       <div className="Gallery">
@@ -49,7 +74,8 @@ class Gallery extends Component {
           onResetSelectedPhotos={this.resetSelectedPhotosHandler}
           onShowSelectedPhotos={this.showSelectedPhotosHandler}
         />
-        <Images images={this.state.photos}/>
+        <Images images={this.state.photos}
+                onToggleSelection={this.togglePhotoSelectionHandler}/>
       </div>
     );
   }

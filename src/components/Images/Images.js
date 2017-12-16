@@ -14,6 +14,8 @@ const Images = props => {
              imgAlt={props.images[i].name}
              title={props.images[i].name}
              date={props.images[i].timestamp}
+             selected={props.images[i].selected}
+             toggleSelection={() => props.onToggleSelection(props.images[i].id)}
       />
     )
   }
@@ -27,7 +29,8 @@ const Images = props => {
 };
 
 Images.propTypes = {
-  images: PropTypes.array
+  images: PropTypes.array,
+  onToggleSelection: PropTypes.func
 };
 
 export default Images;
