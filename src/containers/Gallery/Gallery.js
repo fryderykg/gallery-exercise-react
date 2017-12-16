@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+import axios from 'axios';
 import './gallery.css';
 
 import Controls from '../../components/Controls/Controls';
@@ -7,13 +7,28 @@ import Images from '../../components/Images/Images';
 
 class Gallery extends Component {
   state = {
+    photos: [],
     allPhotos: 0,
     selectedPhotos: 0
 
   };
 
+  componentDidMount() {
+    axios.get('/assets/data.json')
+      .then(response => {
+        this.setState({
+          ...this.state,
+          photos: response.data
+        })
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
   selectAllPhotosHandler = () => {
-    console.log("all photos selected")
+    console.log("all photos selected");
+    console.log(this.state.photos)
   };
 
   resetSelectedPhotosHandler = () => {
@@ -34,12 +49,10 @@ class Gallery extends Component {
           onResetSelectedPhotos={this.resetSelectedPhotosHandler}
           onShowSelectedPhotos={this.showSelectedPhotosHandler}
         />
-        <Images/>
+        <Images images={this.state.photos}/>
       </div>
     );
   }
 }
-
-Gallery.propTypes = {};
 
 export default Gallery;
