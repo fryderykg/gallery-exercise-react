@@ -1,20 +1,65 @@
 .Image {
-  /*border: 2px solid transparent;*/
-  box-shadow: 0px 1px 6px rgb(150, 150, 150);
+  box-shadow: 0 1px 6px rgb(150, 150, 150);
   box-sizing: border-box;
   margin-bottom: 25px;
-  margin-right: 2%;
+  position: relative;
   transition: border-color .3s ease;
-  width: 23%;
+}
+
+@media (min-width: 1400px) {
+  .Image {
+    width: 23%;
+  }
+
+  .Image:not(:nth-of-type(4n)) {
+    margin-right: 2.666%;
+  }
+}
+
+@media (min-width: 1001px) and (max-width: 1400px) {
+  .Image {
+    width: 31%;
+  }
+
+  .Image:not(:nth-of-type(3n)) {
+    margin-right: 3.5%;
+  }
+}
+
+@media (min-width: 501px) and (max-width: 1000px) {
+  .Image {
+    width: 48%;
+  }
+
+  .Image:not(:nth-of-type(2n)) {
+    margin-right: 4%;
+  }
+}
+
+@media (max-width: 500px) {
+  .Image {
+    width: 100%;
+  }
 }
 
 .Image:hover .Image__selector {
   opacity: 1;
 }
 
-.Image.selected {
-  border: 2px solid transparent;
-  border-color: rgb(13, 138, 125);
+.Image__border {
+  border: 2px solid rgb(13, 138, 125);
+  height: 100%;
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  transition: opacity .3s ease;
+  width: 100%;
+}
+
+.Image.selected .Image__border {
+  opacity: 1
 }
 
 .Image.selected .Image__selector {
@@ -64,6 +109,3 @@
   font-size: .7rem;
 }
 
-.bold {
-  font-weight: 600;
-}

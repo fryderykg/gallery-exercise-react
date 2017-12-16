@@ -40,6 +40,7 @@ const Image = props => {
           {dateConvert()}
         </div>
       </div>
+      <div className="Image__border"/>
     </div>
   );
 };
