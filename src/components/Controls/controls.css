@@ -1,0 +1,15 @@
+.Controls {
+  display: flex;
+  justify-content: space-between;
+
+}
+
+.Controls__header {
+
+}
+
+.Controls__buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-right: 15%;
+}
