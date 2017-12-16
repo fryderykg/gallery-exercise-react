@@ -1,7 +1,9 @@
 .Controls {
   display: flex;
   justify-content: space-between;
-
+  margin-bottom: 15px;
+  font-weight: 600;
+  font-size: .8rem;
 }
 
 .Controls__header {
