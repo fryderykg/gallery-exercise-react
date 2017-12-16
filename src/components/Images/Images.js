@@ -6,7 +6,6 @@ import Image from './Image/Image';
 
 const Images = props => {
   let images = [];
-  let selectedCounter = 0;
 
   for (let i = 0; i < props.images.length; i++) {
     if (props.showSelectedOnly) {
@@ -35,13 +34,7 @@ const Images = props => {
         />
       )
     }
-    // Count selected photos
-    if (props.images[i].selected) {
-      selectedCounter += 1;
-    }
   }
-
-  props.setSelectedPhotosCounter(selectedCounter);
 
   return (
     <div className='Images'>

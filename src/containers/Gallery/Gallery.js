@@ -1,11 +1,11 @@
-import React, {PureComponent} from 'react';
+import React, {Component} from 'react';
 import axios from 'axios';
 import './gallery.css';
 
 import Controls from '../../components/Controls/Controls';
 import Images from '../../components/Images/Images';
 
-class Gallery extends PureComponent {
+class Gallery extends Component {
   state = {
     allPhotos: [],
     allPhotosCounter: 0,
@@ -13,7 +13,7 @@ class Gallery extends PureComponent {
     showSelectedOnly: false
   };
 
-  componentDidMount() {
+  componentWillMount() {
     axios.get('/assets/data.json')
       .then(response => {
         const updatedPhotos = response.data.map(image => {
@@ -30,7 +30,7 @@ class Gallery extends PureComponent {
       })
       .catch(error => {
         console.log(error)
-      })
+      });
   }
 
   selectAllPhotosHandler = () => {
@@ -44,7 +44,8 @@ class Gallery extends PureComponent {
 
     this.setState({
       ...this.state,
-      allPhotos: updatedPhotos
+      allPhotos: updatedPhotos,
+      selectedPhotosCounter: this.state.allPhotos.length
     });
   };
 
@@ -59,7 +60,8 @@ class Gallery extends PureComponent {
 
     this.setState({
       ...this.state,
-      allPhotos: updatedPhotos
+      allPhotos: updatedPhotos,
+      selectedPhotosCounter: 0
     });
   };
 
@@ -73,12 +75,22 @@ class Gallery extends PureComponent {
   };
 
   togglePhotoSelectionHandler = (id) => {
+    let updatedSelectedPhotosCounter = this.state.selectedPhotosCounter;
     const updatedPhotos = this.state.allPhotos
       .map(photo => {
         if (photo.id === id) {
-          return {
-            ...photo,
-            selected: !photo.selected
+          if (photo.selected) {
+            updatedSelectedPhotosCounter -= 1;
+            return {
+              ...photo,
+              selected: false
+            }
+          } else {
+            updatedSelectedPhotosCounter += 1;
+            return {
+              ...photo,
+              selected: true
+            }
           }
         } else {
           return photo
@@ -88,14 +100,8 @@ class Gallery extends PureComponent {
     this.setState({
       ...this.state,
       allPhotos: updatedPhotos,
+      selectedPhotosCounter: updatedSelectedPhotosCounter
     });
-  };
-
-  setSelectedPhotosHandler = (number) => {
-    this.setState({
-      ...this.state,
-      selectedPhotosCounter: number
-    })
   };
 
   render() {
@@ -109,9 +115,10 @@ class Gallery extends PureComponent {
           onShowSelectedPhotos={this.showSelectedPhotosHandler}
         />
         <Images images={this.state.allPhotos}
+                selectedImages={this.state.selectedPhotos}
                 showSelectedOnly={this.state.showSelectedOnly}
                 onToggleSelection={this.togglePhotoSelectionHandler}
-                setSelectedPhotosCounter={this.setSelectedPhotosHandler}/>
+        />
       </div>
     );
   }
