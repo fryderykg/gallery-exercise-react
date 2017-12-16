@@ -42,10 +42,6 @@
   }
 }
 
-.Image:hover .Image__selector {
-  opacity: 1;
-}
-
 .Image__border {
   border: 2px solid rgb(13, 138, 125);
   height: 100%;
@@ -58,7 +54,9 @@
   width: 100%;
 }
 
-.Image.selected .Image__border {
+.Image:hover .Image__selector,
+.Image.selected .Image__border,
+.Image.selected .Image__selector {
   opacity: 1
 }
 

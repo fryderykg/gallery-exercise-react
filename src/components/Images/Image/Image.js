@@ -12,7 +12,8 @@ const Image = props => {
   const dateConvert = () => {
     const tempDate = new Date(props.date);
     const year = tempDate.getFullYear();
-    const month = tempDate.getMonth() + 1;
+    let month = tempDate.getMonth() + 1;
+    month = month < 10 ? '0' + month : month;
     let date = tempDate.getDate();
     date = date < 10 ? '0' + date : date;
     let hour = tempDate.getHours();
@@ -21,7 +22,7 @@ const Image = props => {
     hour = hour % 12;
     hour = hour ? hour : 12;
     min = min < 10 ? '0' + min : min;
-    return date + '-' + month + '-' + year + ' ' + hour + ':' + min + ampm;
+    return month + '-' + date + '-' + year + ' ' + hour + ':' + min + ampm;
   };
 
 
