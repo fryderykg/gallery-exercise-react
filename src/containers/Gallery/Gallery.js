@@ -61,7 +61,8 @@ class Gallery extends Component {
     this.setState({
       ...this.state,
       allPhotos: updatedPhotos,
-      selectedPhotosCounter: 0
+      selectedPhotosCounter: 0,
+      showSelectedOnly: false
     });
   };
 
