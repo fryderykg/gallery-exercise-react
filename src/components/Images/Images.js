@@ -5,33 +5,48 @@ import './images.css';
 import Image from './Image/Image';
 
 const Images = props => {
+  const returnImageComponent = (key, imgSrc, imgAlt, title, date, selected, toggleSelection) => {
+    return (
+      <Image key={key}
+             imgSrc={imgSrc}
+             imgAlt={imgAlt}
+             title={title}
+             date={date}
+             selected={selected}
+             toggleSelection={toggleSelection}
+      />
+    )
+  };
+
   let images = [];
 
   for (let i = 0; i < props.images.length; i++) {
     if (props.showSelectedOnly) {
       if (props.images[i].selected) {
         images.push(
-          <Image key={props.images[i].id}
-                 imgSrc={props.images[i].imageRelativePath}
-                 imgAlt={props.images[i].name}
-                 title={props.images[i].name}
-                 date={props.images[i].timestamp}
-                 selected={props.images[i].selected}
-                 toggleSelection={() => props.onToggleSelection(props.images[i].id)}
-          />
+          returnImageComponent(
+            props.images[i].id,
+            props.images[i].imageRelativePath,
+            props.images[i].name,
+            props.images[i].name,
+            props.images[i].timestamp,
+            props.images[i].selected,
+            () => props.onToggleSelection(props.images[i].id)
+          )
         )
       }
 
     } else {
       images.push(
-        <Image key={props.images[i].id}
-               imgSrc={props.images[i].imageRelativePath}
-               imgAlt={props.images[i].name}
-               title={props.images[i].name}
-               date={props.images[i].timestamp}
-               selected={props.images[i].selected}
-               toggleSelection={() => props.onToggleSelection(props.images[i].id)}
-        />
+        returnImageComponent(
+          props.images[i].id,
+          props.images[i].imageRelativePath,
+          props.images[i].name,
+          props.images[i].name,
+          props.images[i].timestamp,
+          props.images[i].selected,
+          () => props.onToggleSelection(props.images[i].id)
+        )
       )
     }
   }
@@ -45,7 +60,15 @@ const Images = props => {
 
 Images.propTypes = {
   showSelectedOnly: PropTypes.bool,
-  images: PropTypes.array,
+  images: PropTypes.arrayOf(PropTypes.shape(
+    {
+      id: PropTypes.string,
+      imageRelativePath: PropTypes.string,
+      name: PropTypes.string,
+      timestamp: PropTypes.number,
+      selected: PropTypes.bool
+    }
+  )),
   onToggleSelection: PropTypes.func,
   setSelectedPhotosCounter: PropTypes.func
 };
