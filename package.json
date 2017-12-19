@@ -1,5 +1,6 @@
 {
   "name": "gallery-exercise-react",
+  "homepage": "http://web-dev.waw.pl/pages/gallery-react",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

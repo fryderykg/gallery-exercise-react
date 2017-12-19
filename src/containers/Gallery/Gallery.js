@@ -14,7 +14,7 @@ class Gallery extends Component {
   };
 
   componentWillMount() {
-    axios.get('/assets/data.json')
+    axios.get('assets/data.json')
       .then(response => {
         const updatedPhotos = response.data.map(image => {
           return {
